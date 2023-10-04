@@ -1,14 +1,19 @@
 import { ClassNames } from '@emotion/react';
+import { useNavigate } from 'react-router-dom';
 // import { str } from './strHelpers';
 
 const MiniPalette = ({ colors, emoji, id, paletteName }) => {
+    const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(`/palette/${id}`);
+    }
     const ReturnComponent = (c) => {
         const miniColorBoxes = colors.map(color => {
             return <div className={c.miniColor} style={{backgroundColor: color.color}} key={color.name}>
                 
             </div>
         })
-        return <div className={c.root}>
+        return <div className={c.root} onClick={handleClick}>
             <div className={c.colors}>
                 {miniColorBoxes}
             </div>
