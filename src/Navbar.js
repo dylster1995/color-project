@@ -29,13 +29,15 @@ export default class Navbar extends Component {
         </div>
         <div className='select-container'>
             <Select 
+                id='colorType'
+                name='colorType'
                 onChange={handleChangeSelect}
                 value={select}
                 style={{minWidth: 120, maxHeight: 30}}
             >
-                <MenuItem value='hex'>HEX <span className='muted-text'>- #ffffff</span></MenuItem>
-                <MenuItem value='rgb'>RGB <span className='muted-text'>- rgb(255, 255, 255)</span></MenuItem>
-                <MenuItem value='rgba'>RGBA <span className='muted-text'>- rgba(255, 255, 255, 1.0)</span></MenuItem>
+                <MenuItem value='hex'>HEX <span className='muted-text'> - #ffffff</span></MenuItem>
+                <MenuItem value='rgb'>RGB <span className='muted-text'> - rgb(255, 255, 255)</span></MenuItem>
+                <MenuItem value='rgba'>RGBA <span className='muted-text'> - rgba(255, 255, 255, 1.0)</span></MenuItem>
             </Select>
         </div>
         <Snackbar 

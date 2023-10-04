@@ -22,9 +22,9 @@ export default class Palette extends Component {
         this.setState({ showSnackbar: false })
     }
   render() {
-    const { colors } = this.props.palette;
+    const { colors, paletteName, emoji } = this.props.palette;
     const { level, select, showSnackbar } = this.state;
-    const colorBoxes = colors[level].map( (color, i) => <ColorBox color={color[select]} name={color.name} key={i} /> );
+    const colorBoxes = colors[level].map( color => <ColorBox color={color[select]} name={color.name} key={color.id} /> );
     return (
       <div className='Palette'>
 
@@ -39,7 +39,10 @@ export default class Palette extends Component {
         <div className='Palette-colors'>
             { colorBoxes }
         </div>
-        {/* footer goes here */}
+        <footer className='Palette-footer'>
+            { paletteName }
+            <span className='emoji'>{emoji}</span>
+        </footer>
       </div>
     )
   }
