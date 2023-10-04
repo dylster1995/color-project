@@ -10,7 +10,7 @@ const MiniPalette = ({ colors, emoji, id, paletteName }) => {
     }
     return(
         <ClassNames>
-            {({ css, cx }) => (
+            {({ css }) => (
                 <ReturnComponent
                     root={css({
                         backgroundColor: 'white',
