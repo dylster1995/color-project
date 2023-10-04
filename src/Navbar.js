@@ -8,13 +8,13 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './Navbar.css';
 
-export default class Navbar extends Component {
-    constructor(props){
-        super(props);
-    }
+const Navbar = ({ level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar }) => {
+    // constructor(props){
+    //     super(props);
+    // }
 
-  render() {
-    const { level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar } = this.props;
+//   render() {
+//     const { level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar } = this.props;
 
     return (
       <header className='Navbar'>
@@ -31,7 +31,10 @@ export default class Navbar extends Component {
             <Select 
                 id='colorType'
                 name='colorType'
-                onChange={handleChangeSelect}
+                onChange={(evt) => {
+                    handleChangeSelect(evt.target.value);
+                    handleCloseSnackbar(true);
+                }}
                 value={select}
                 style={{minWidth: 120, maxHeight: 30}}
             >
@@ -48,9 +51,9 @@ export default class Navbar extends Component {
             ContentProps={{
                 "aria-describedby": "message-id"
             }}
-            onClose={handleCloseSnackbar}
+            onClose={() => handleCloseSnackbar(false)}
             action={[
-                <IconButton onClick={handleCloseSnackbar} color='inherit' key="close" aria-label='close'>
+                <IconButton onClick={() => handleCloseSnackbar(false)} color='inherit' key="close" aria-label='close'>
                     <CloseIcon />
                 </IconButton>
             ]}
@@ -58,4 +61,6 @@ export default class Navbar extends Component {
       </header>
     )
   }
-}
+// }
+
+export default Navbar;

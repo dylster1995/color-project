@@ -1,40 +1,35 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { generatePalette } from './colorHelpers';
+import seedColors from './seedColors';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import './Palette.css';
 
-export default class Palette extends Component {
-    constructor(props){
-        super(props);
-        this.state = { level: 500, select: 'hex', showSnackbar: false};
-        this.handleChangeLevel = this.handleChangeLevel.bind(this);
-        this.handleChangeSelect = this.handleChangeSelect.bind(this);
-        this.handleCloseSnackbar = this.handleCloseSnackbar.bind(this);
+const Palette = () => {
+    const [level, setLevel] = useState(500);
+    const [select, setSelect] = useState('hex');
+    const [showSnackbar, setShowSnackbar] = useState(false);
+
+    const { paletteId } = useParams();
+    const foundPalette = seedColors.find( c => c.id == paletteId );
+    if(!foundPalette){
+        return <h1>uh oh no colors found!</h1>
     }
-    handleChangeLevel(level) {
-        this.setState({ level });
-    }
-    handleChangeSelect(evt) {
-        const select = evt.target.value;
-        this.setState({ select, showSnackbar: true });
-    }
-    handleCloseSnackbar(evt) {
-        this.setState({ showSnackbar: false })
-    }
-  render() {
-    const { colors, paletteName, emoji } = this.props.palette;
-    const { level, select, showSnackbar } = this.state;
+    const palette = generatePalette(foundPalette)
+
+    const { colors, emoji, id, paletteName } = palette;
     const colorBoxes = colors[level].map( color => <ColorBox color={color[select]} name={color.name} key={color.id} /> );
+
     return (
       <div className='Palette'>
-
         <Navbar 
             level={level} 
-            handleChangeLevel={this.handleChangeLevel} 
+            handleChangeLevel={setLevel} 
             select={select}  
-            handleChangeSelect={this.handleChangeSelect} 
+            handleChangeSelect={setSelect} 
             showSnackbar={showSnackbar}
-            handleCloseSnackbar={this.handleCloseSnackbar}
+            handleCloseSnackbar={setShowSnackbar}
         />
         <div className='Palette-colors'>
             { colorBoxes }
@@ -46,4 +41,5 @@ export default class Palette extends Component {
       </div>
     )
   }
-}
+
+export default Palette; 
