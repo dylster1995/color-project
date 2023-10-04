@@ -1,25 +1,19 @@
-import React, { Component } from 'react';
+// import React from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Snackbar from '@mui/material/Snackbar';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Link } from 'react-router-dom';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './Navbar.css';
 
 const Navbar = ({ level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar }) => {
-    // constructor(props){
-    //     super(props);
-    // }
-
-//   render() {
-//     const { level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar } = this.props;
-
     return (
       <header className='Navbar'>
         <div className='logo'>
-            <a href='#'>reactcolorpicker</a>
+            <Link to='/'>reactcolorpicker</Link>
         </div>
         <div className='slider-container'>
             <span>Level: {level}</span>
@@ -61,6 +55,5 @@ const Navbar = ({ level, handleChangeLevel, select, handleChangeSelect, showSnac
       </header>
     )
   }
-// }
 
 export default Navbar;

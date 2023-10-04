@@ -12,13 +12,13 @@ const Palette = () => {
     const [showSnackbar, setShowSnackbar] = useState(false);
 
     const { paletteId } = useParams();
-    const foundPalette = seedColors.find( c => c.id == paletteId );
+    const foundPalette = seedColors.find( c => c.id === paletteId );
     if(!foundPalette){
         return <h1>uh oh no colors found!</h1>
     }
     const palette = generatePalette(foundPalette)
 
-    const { colors, emoji, id, paletteName } = palette;
+    const { colors, emoji, paletteName } = palette;
     const colorBoxes = colors[level].map( color => <ColorBox color={color[select]} name={color.name} key={color.id} /> );
 
     return (
