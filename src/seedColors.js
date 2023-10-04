@@ -1,4 +1,4 @@
-export default [
+const data = [
     {
       paletteName: "Material UI Colors",
       id: "material-ui-colors",
@@ -242,4 +242,6 @@ export default [
       ]
     }
   ];
+
+  export default data;
   
