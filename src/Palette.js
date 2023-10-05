@@ -19,7 +19,15 @@ const Palette = () => {
     const palette = generatePalette(foundPalette)
 
     const { colors, emoji, paletteName } = palette;
-    const colorBoxes = colors[level].map( color => <ColorBox color={color[select]} name={color.name} key={color.id} /> );
+    const colorBoxes = colors[level].map( color => {
+        return (<ColorBox 
+            color={color[select]} 
+            name={color.name} 
+            key={color.id} 
+            paletteId={palette.id}
+            colorId={color.id}
+        /> )
+});
 
     return (
       <div className='Palette'>
