@@ -3,7 +3,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { Link } from 'react-router-dom';
 import './ColorBox.css';
 
-const ColorBox = ({ color, name, paletteId, colorId }) => {
+const ColorBox = ({ color, name, paletteId = null, colorId }) => {
+    console.log(`color: ${color}\nname: ${name}\npaletteId: ${paletteId}\ncolorId: ${colorId}`)
     function handleCopy(evt) {
         setShowOverlay(true);
         setTimeout( () => setShowOverlay(false), 1500 )
@@ -23,9 +24,13 @@ const ColorBox = ({ color, name, paletteId, colorId }) => {
                         </div>
                         <button className='copy-button'>Copy</button>
                     </div>
-                    <Link to={`/palette/${paletteId}/${colorId}`} onClick={ evt => evt.stopPropagation()}>
-                        <span className='see-more'>More</span>
-                    </Link>
+                    {
+                        paletteId != null && (
+                        <Link to={`/palette/${paletteId}/${colorId}`} onClick={ evt => evt.stopPropagation()}>
+                            <span className='see-more'>More</span>
+                        </Link>
+                        )
+                    }
                 </div>
             </CopyToClipboard>
         )
