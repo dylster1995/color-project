@@ -1,4 +1,3 @@
-// import { Link } from 'react-router-dom';
 import { ClassNames } from '@emotion/react';
 import MiniPalette from './MiniPalette';
 
@@ -17,7 +16,7 @@ const PaletteList = ({ palettes }) => {
     }
     return(
         <ClassNames>
-        {({ css }) => (
+        {( { css }) => (
             <ReturnComponent
                 root={css({
                     backgroundColor: 'blue',
