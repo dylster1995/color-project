@@ -121,3 +121,9 @@
 .go-back {
     background-color: black;
 }
+.light-font {
+    color: white;
+}
+.dark-font {
+    color: rgba(0, 0, 0, 1);
+}
