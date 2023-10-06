@@ -1,5 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { generatePalette } from './colorHelpers';
+import { Link } from 'react-router-dom';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import PaletteFooter from './PaletteFooter';
@@ -24,7 +25,7 @@ const SingleColorPalette = ({ palettes, select, setSelect, showSnackbar, setShow
     }).slice(1);
 
     return (
-        <div className='Palette'>
+        <div className='SingleColorPalette Palette'>
             <Navbar 
                 select={select}    
                 setSelect={setSelect}
@@ -33,8 +34,15 @@ const SingleColorPalette = ({ palettes, select, setSelect, showSnackbar, setShow
             />
             <div className='Palette-colors'>
                 { colorBoxes }
+                <div className='ColorBox' style={{backgroundColor: 'black'}}>
+                    <div className='copy-container'>
+                    <Link to={`/palette/${paletteId}`} onClick={ evt => evt.stopPropagation()}>
+                        <button className='back-button'>Go Back</button>
+                    </Link>
+                    </div>
+                </div>
             </div>
-            <PaletteFooter  paletteName={palette.paletteName} emoji={palette.emoji} colorName={colorId}/>
+            <PaletteFooter paletteName={palette.paletteName} emoji={palette.emoji} colorName={colorId}/>
         </div>
     )
 }
