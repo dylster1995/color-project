@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import './ColorBox.css';
 
 const ColorBox = ({ color, name, paletteId = null, colorId }) => {
-    console.log(`color: ${color}\nname: ${name}\npaletteId: ${paletteId}\ncolorId: ${colorId}`)
     function handleCopy(evt) {
         setShowOverlay(true);
         setTimeout( () => setShowOverlay(false), 1500 )
@@ -13,8 +12,8 @@ const ColorBox = ({ color, name, paletteId = null, colorId }) => {
         return (
             <CopyToClipboard text={color} onCopy={handleCopy}>
                 <div className='ColorBox' style={{backgroundColor: color}}>
-                    <div className={`copy-overlay ${showOverlay && 'show'}`} style={{backgroundColor: color}} />
-                    <div className={`copy-msg ${showOverlay && 'show'}`}>
+                    <div className={`copy-overlay ${showOverlay ? 'show' : ''}`} style={{backgroundColor: color}} />
+                    <div className={`copy-msg ${showOverlay ? 'show' : ''}`}>
                         <h1>copied!</h1>
                         <p>{color}</p>
                     </div>

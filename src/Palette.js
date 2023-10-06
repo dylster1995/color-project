@@ -5,11 +5,10 @@ import seedColors from './seedColors';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import './Palette.css';
+import PaletteFooter from './PaletteFooter';
 
-const Palette = () => {
+const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
     const [level, setLevel] = useState(500);
-    const [select, setSelect] = useState('hex');
-    const [showSnackbar, setShowSnackbar] = useState(false);
 
     const { paletteId } = useParams();
     const foundPalette = seedColors.find( c => c.id === paletteId );
@@ -35,17 +34,14 @@ const Palette = () => {
             level={level} 
             handleChangeLevel={setLevel} 
             select={select}  
-            handleChangeSelect={setSelect} 
+            setSelect={setSelect} 
             showSnackbar={showSnackbar}
-            handleCloseSnackbar={setShowSnackbar}
+            setShowSnackbar={setShowSnackbar}
         />
         <div className='Palette-colors'>
             { colorBoxes }
         </div>
-        <footer className='Palette-footer'>
-            { paletteName }
-            <span className='emoji'>{emoji}</span>
-        </footer>
+        <PaletteFooter paletteName={paletteName} emoji={emoji}/>
       </div>
     )
   }

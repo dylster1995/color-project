@@ -1,6 +1,6 @@
-/* .App {
-  
-} */
+.App {
+  overflow: hidden;
+}
 
 .App-logo {
   height: 40vmin;

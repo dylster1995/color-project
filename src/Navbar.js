@@ -9,25 +9,28 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './Navbar.css';
 
-const Navbar = ({ level, handleChangeLevel, select, handleChangeSelect, showSnackbar, handleCloseSnackbar }) => {
+const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, showSnackbar, setShowSnackbar }) => {
     return (
       <header className='Navbar'>
         <div className='logo'>
             <Link to='/'>reactcolorpicker</Link>
         </div>
-        <div className='slider-container'>
-            <span>Level: {level}</span>
-            <div className='slider'>
-                <Slider defaultValue={level} min={100} max={900} onChange={handleChangeLevel} step={100} />
+        {
+            level != null && <div className='slider-container'>
+                <span>Level: {level}</span>
+                <div className='slider'>
+                    <Slider defaultValue={level} min={100} max={900} onChange={handleChangeLevel} step={100} />
+                </div>
+           
             </div>
-        </div>
+         }
         <div className='select-container'>
             <Select 
                 id='colorType'
                 name='colorType'
                 onChange={(evt) => {
-                    handleChangeSelect(evt.target.value);
-                    handleCloseSnackbar(true);
+                    setSelect(evt.target.value);
+                    setShowSnackbar(true);
                 }}
                 value={select}
                 style={{minWidth: 120, maxHeight: 30}}
@@ -45,9 +48,9 @@ const Navbar = ({ level, handleChangeLevel, select, handleChangeSelect, showSnac
             ContentProps={{
                 "aria-describedby": "message-id"
             }}
-            onClose={() => handleCloseSnackbar(false)}
+            onClose={() => setShowSnackbar(false)}
             action={[
-                <IconButton onClick={() => handleCloseSnackbar(false)} color='inherit' key="close" aria-label='close'>
+                <IconButton onClick={() => setShowSnackbar(false)} color='inherit' key="close" aria-label='close'>
                     <CloseIcon />
                 </IconButton>
             ]}

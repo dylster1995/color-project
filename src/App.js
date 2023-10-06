@@ -4,8 +4,12 @@ import PaletteList from './PaletteList';
 import seedColors from './seedColors';
 import SingleColorPalette from './SingleColorPalette';
 import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 
 function App() {
+  const [select, setSelect] = useState('hex');
+  const [showSnackbar, setShowSnackbar] = useState(false);
+
   return (
     <div className="App">
       <Routes>
@@ -15,11 +19,22 @@ function App() {
         />
         <Route 
           path='/palette/:paletteId' 
-          element={<Palette />}
+          element={<Palette 
+            select={select}
+            setSelect={setSelect}
+            showSnackbar={showSnackbar}
+            setShowSnackbar={setShowSnackbar}
+          />}
         />
         <Route 
           path='/palette/:paletteId/:colorId' 
-          element={<SingleColorPalette palettes={seedColors} />} 
+          element={<SingleColorPalette 
+            palettes={seedColors}
+            select={select}
+            setSelect={setSelect}
+            showSnackbar={showSnackbar}
+            setShowSnackbar={setShowSnackbar}
+          />} 
         />
       </Routes>
       
