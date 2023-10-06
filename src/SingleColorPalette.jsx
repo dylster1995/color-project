@@ -4,13 +4,57 @@ import { Link } from 'react-router-dom';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import PaletteFooter from './PaletteFooter';
-
+import { css } from '@emotion/css';
 
 const SingleColorPalette = ({ palettes, select, setSelect, showSnackbar, setShowSnackbar }) => {
     const { paletteId, colorId } = useParams();
     const foundPalette = palettes.find( p => p.id === paletteId )
     const palette = generatePalette(foundPalette);
     const colors = [];
+    const classes = {
+        SingleColorPalette: css`
+            height: 50%;
+            margin-top: -1px;
+            background-color: black;
+        `,
+        goBack: css`
+            width: 100px;
+            height: 30px;
+            position: absolute;
+            display: inline-block;
+            top: 50%;
+            left: 50%;
+            margin-left: -50px;
+            margin-top: -15px;
+            text-align:center;
+            outline: none;
+            background: rgba(255,255,255, 0.3);
+            font-size: 1rem;
+            line-height: 30px;
+            color: white;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+        `,
+        PaletteColors: css`
+            height: 90%;
+        `,
+        Palette: css`
+            height: 100vh;
+        `,
+        ColorBox: css`
+            width: 20%;
+            height:50%;
+            margin: 0 auto;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            margin-bottom: -4px;
+            margin-top: -1px;
+            background-color: black;
+        `
+    }
 
     for (let i in palette.colors){
         colors.push(palette.colors[i].find( c => c.id === colorId ));
@@ -26,19 +70,19 @@ const SingleColorPalette = ({ palettes, select, setSelect, showSnackbar, setShow
     }).slice(1);
 
     return (
-        <div className='SingleColorPalette Palette'>
+        <div className={classes.Palette}>
             <Navbar 
                 select={select}    
                 setSelect={setSelect}
                 showSnackbar={showSnackbar}
                 setShowSnackbar={setShowSnackbar}
             />
-            <div className='Palette-colors'>
+            <div className={classes.PaletteColors}>
                 { colorBoxes }
-                <div className='ColorBox' style={{backgroundColor: 'black'}}>
-                    <div className='copy-container'>
+                <div className={classes.ColorBox}>
+                    <div>
                     <Link to={`/palette/${paletteId}`} onClick={ evt => evt.stopPropagation()}>
-                        <button className='back-button'>Go Back</button>
+                        <button className={classes.goBack}>Go Back</button>
                     </Link>
                     </div>
                 </div>

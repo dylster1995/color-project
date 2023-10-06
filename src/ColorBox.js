@@ -147,8 +147,8 @@ const ColorBox = ({ color, name, paletteId = null, colorId, singleColor = false 
             transform: scale(1);
             z-index: 25;
             width: 100%;
-            transition: all 0.6s ease-in-out;
-            transition-delay: 0.3s;
+            transition: transform 0.4s ease-in-out;
+            transition-delay: 0s;
             color: ${ isLightColor ? 'black' :  'white'};
         `,
         goBack: css`

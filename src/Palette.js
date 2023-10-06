@@ -6,6 +6,7 @@ import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import './Palette.css';
 import PaletteFooter from './PaletteFooter';
+import { css } from '@emotion/css';
 
 const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
     const [level, setLevel] = useState(500);
@@ -15,7 +16,7 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
     if(!foundPalette){
         return <h1>uh oh no colors found!</h1>
     }
-    const palette = generatePalette(foundPalette)
+    const palette = generatePalette(foundPalette);
 
     const { colors, emoji, paletteName } = palette;
     const colorBoxes = colors[level].map( color => {
@@ -26,10 +27,18 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
             paletteId={palette.id}
             colorId={color.id}
         /> )
-});
+    });
+    const classes = {
+        Palette: css`
+            height: 100vh;
+        `,
+        PaletteColors: css`
+            height: 90%;
+        `
+    }
 
     return (
-      <div className='Palette'>
+      <div className={classes.Palette}>
         <Navbar 
             level={level} 
             handleChangeLevel={setLevel} 
@@ -38,7 +47,7 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
             showSnackbar={showSnackbar}
             setShowSnackbar={setShowSnackbar}
         />
-        <div className='Palette-colors'>
+        <div className={classes.PaletteColors}>
             { colorBoxes }
         </div>
         <PaletteFooter paletteName={paletteName} emoji={emoji}/>
@@ -47,3 +56,4 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
   }
 
 export default Palette; 
+
