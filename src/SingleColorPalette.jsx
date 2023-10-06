@@ -21,6 +21,7 @@ const SingleColorPalette = ({ palettes, select, setSelect, showSnackbar, setShow
             color={c[select]}
             name={c.name}
             colorId={c.id}
+            singleColor={true}
         />
     }).slice(1);
 
