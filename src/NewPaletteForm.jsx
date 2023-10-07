@@ -60,8 +60,10 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-export default function PersistentDrawerLeft() {
+const NewPaletteForm = () => {
   const [open, setOpen] = React.useState(false);
+  const [currentColor, setCurrentColor] = React.useState('');
+  const [colors, setColors] = React.useState(['purple', 'red']);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,12 +123,22 @@ export default function PersistentDrawerLeft() {
             Random Color
         </Button>
         </div>
-        <ChromePicker color='purple' onChangeComplete={(newColor) => console.log(newColor) }/>
-        <Button variant='contained' color='primary'>Add Color</Button>
+        <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex) }/>
+        <Button 
+            variant='contained' 
+            style={{backgroundColor: currentColor}} 
+            onClick={() => setColors( oldColors => [...oldColors, currentColor])}
+        >
+            Add Color
+        </Button>
+        {/* End of Drawer */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader /> 
+        {colors.map(color => <div style={{backgroundColor: color, height: '100px', width: '100px'}}></div>)}
       </Main>
     </Box>
   );
 }
+
+export default NewPaletteForm;
