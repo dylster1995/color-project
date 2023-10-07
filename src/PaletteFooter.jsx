@@ -1,22 +1,8 @@
 import './PaletteFooter.css';
-import { css } from '@emotion/css';
+import styles from './styles/PaletteFooterStyles';
 
 const PaletteFooter = ({ paletteName, emoji, colorName = null }) => {
-    const classes = {
-        PaletteFooter: css`
-            background-color: white;
-            height: 5%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            font-weight: bold;
-            font-size: 1rem;
-        `,
-        emoji: css`
-            font-size: 1rem;
-            margin: 0 1rem;
-        `
-    }
+    const classes = styles();
     return (
         <footer className={classes.PaletteFooter}>
             { paletteName }

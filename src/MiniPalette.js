@@ -1,73 +1,24 @@
-import { ClassNames } from '@emotion/react';
+import styles from './styles/MiniPaletteStyles';
 import { useNavigate } from 'react-router-dom';
-// import { str } from './strHelpers';
 
 const MiniPalette = ({ colors, emoji, id, paletteName }) => {
     const navigate = useNavigate();
+    const classes = styles();
     const handleClick = () => {
         navigate(`/palette/${id}`);
     }
-    const ReturnComponent = (c) => {
-        const miniColorBoxes = colors.map(color => {
-            return <div className={c.miniColor} style={{backgroundColor: color.color}} key={color.name}>
-                
-            </div>
-        })
-        return <div className={c.root} onClick={handleClick}>
-            <div className={c.colors}>
+
+    const miniColorBoxes = colors.map(color => 
+        <div className={classes.miniColor} style={{backgroundColor: color.color}} key={color.name} 
+    />)
+
+    return(
+        <div className={classes.root} onClick={handleClick}>
+            <div className={classes.colors}>
                 {miniColorBoxes}
             </div>
-            <h5 className={c.title}>{paletteName} <span className={c.emoji}>{emoji}</span></h5>
+            <h5 className={classes.title}>{paletteName} <span className={classes.emoji}>{emoji}</span></h5>
         </div>
-    }
-    return(
-        <ClassNames>
-            {({ css }) => (
-                <ReturnComponent
-                    root={css({
-                        backgroundColor: 'white',
-                        border: '1px solid black',
-                        borderRadius: '5px',
-                        padding: '0.5rem',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        height: '100%',
-                        '&:hover': {
-                            cursor: 'pointer'
-                        }
-                    })}
-                    colors={css({
-                        backgroundColor: 'grey',
-                        height: '170px',
-                        width: '100%',
-                        borderRadius: '5px',
-                        overflow: 'hidden'
-                    })}
-                    title={css({
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        margin: '0',
-                        color: 'black',
-                        paddingTop: '0.5rem',
-                        fontSize: '1rem',
-                        position: 'relative'
-                    })}
-                    emoji={css({
-                        marginLeft: 'auto',
-                        fontSize: '1.5rem'
-                    })}
-                    miniColor={css({
-                        width: '20%',
-                        height: '25%',
-                        display: 'inline-block',
-                        margin: '0 auto',
-                        position: 'relative',
-                        marginBottom: '-3.7px',
-                    })}
-                />
-            )}   
-        </ClassNames>
     )
 }
 

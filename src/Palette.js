@@ -6,7 +6,7 @@ import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import './Palette.css';
 import PaletteFooter from './PaletteFooter';
-import { css } from '@emotion/css';
+import styles from './styles/PaletteStyles';
 
 const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
     const [level, setLevel] = useState(500);
@@ -28,14 +28,7 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
             colorId={color.id}
         /> )
     });
-    const classes = {
-        Palette: css`
-            height: 100vh;
-        `,
-        PaletteColors: css`
-            height: 90%;
-        `
-    }
+    const classes = styles();
 
     return (
       <div className={classes.Palette}>

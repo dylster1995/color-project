@@ -7,24 +7,37 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Link } from 'react-router-dom';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import styles from './styles/NavbarStyles';
 import './Navbar.css';
 
 const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, showSnackbar, setShowSnackbar }) => {
+    const classes = styles();
     return (
-      <header className='Navbar'>
-        <div className='logo'>
+      <header className={classes.Navbar}>
+        <div className={classes.logo}>
             <Link to='/'>reactcolorpicker</Link>
         </div>
         {
             level != null && <div className='slider-container'>
                 <span>Level: {level}</span>
-                <div className='slider'>
-                    <Slider defaultValue={level} min={100} max={900} onChange={handleChangeLevel} step={100} />
+                <div className={classes.slider}>
+                    <Slider 
+                        // className={`${classes['rc-slider-handle']}
+                        //     ${classes['rc-slider-track']} 
+                        //     ${classes['rc-slider-rail']}
+                        //     ${classes['rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging']}
+                        // `} 
+                        defaultValue={level} 
+                        min={100} 
+                        max={900} 
+                        onChange={handleChangeLevel} 
+                        step={100} 
+                    />
                 </div>
            
             </div>
          }
-        <div className='select-container'>
+        <div className={classes.selectContainer}>
             <Select 
                 id='colorType'
                 name='colorType'
@@ -35,9 +48,9 @@ const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, sho
                 value={select}
                 style={{minWidth: 120, maxHeight: 30}}
             >
-                <MenuItem value='hex'>HEX <span className='muted-text'> - #ffffff</span></MenuItem>
-                <MenuItem value='rgb'>RGB <span className='muted-text'> - rgb(255, 255, 255)</span></MenuItem>
-                <MenuItem value='rgba'>RGBA <span className='muted-text'> - rgba(255, 255, 255, 1.0)</span></MenuItem>
+                <MenuItem value='hex'>HEX <span className={classes.mutedText}> - #ffffff</span></MenuItem>
+                <MenuItem value='rgb'>RGB <span className={classes.mutedText}> - rgb(255, 255, 255)</span></MenuItem>
+                <MenuItem value='rgba'>RGBA <span className={classes.mutedText}> - rgba(255, 255, 255, 1.0)</span></MenuItem>
             </Select>
         </div>
         <Snackbar 
