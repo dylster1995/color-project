@@ -10,6 +10,7 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import DraggableColorBox from './DraggableColorBox';
 import { Button } from '@mui/material';
 import { ChromePicker } from 'react-color';
 
@@ -18,7 +19,8 @@ const drawerWidth = 400;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
+    height: 'calc(100vh - 64px)',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -62,7 +64,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const NewPaletteForm = () => {
   const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = React.useState('');
+  const [currentColor, setCurrentColor] = React.useState('black');
   const [colors, setColors] = React.useState(['purple', 'red']);
 
   const handleDrawerOpen = () => {
@@ -135,7 +137,7 @@ const NewPaletteForm = () => {
       </Drawer>
       <Main open={open}>
         <DrawerHeader /> 
-        {colors.map(color => <div style={{backgroundColor: color, height: '100px', width: '100px'}}></div>)}
+        {colors.map(color => <DraggableColorBox color={color} key={color} />)}
       </Main>
     </Box>
   );
