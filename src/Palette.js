@@ -4,7 +4,6 @@ import { generatePalette } from './colorHelpers';
 import seedColors from './seedColors';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
-import './Palette.css';
 import PaletteFooter from './PaletteFooter';
 import styles from './styles/PaletteStyles';
 

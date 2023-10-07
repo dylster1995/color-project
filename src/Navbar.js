@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import styles from './styles/NavbarStyles';
-import './Navbar.css';
 
 const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, showSnackbar, setShowSnackbar }) => {
     const classes = styles();

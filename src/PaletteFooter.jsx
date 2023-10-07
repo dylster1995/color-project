@@ -1,4 +1,3 @@
-import './PaletteFooter.css';
 import styles from './styles/PaletteFooterStyles';
 
 const PaletteFooter = ({ paletteName, emoji, colorName = null }) => {
