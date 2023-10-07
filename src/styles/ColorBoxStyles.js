@@ -135,7 +135,7 @@ const styles = ( singleColor, color, isLightColor ) => {
             z-index: 25;
             width: 100%;
             transition: transform 0.4s ease-in-out;
-            transition-delay: 0s;
+            transition-delay: .1s;
             color: ${ isLightColor ? 'black' :  'white'};
         `,
         goBack: css`

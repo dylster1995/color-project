@@ -3,6 +3,7 @@ import Palette from './Palette';
 import PaletteList from './PaletteList';
 import seedColors from './seedColors';
 import SingleColorPalette from './SingleColorPalette';
+import NewPaletteForm from './NewPaletteForm';
 import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -35,6 +36,10 @@ function App() {
             showSnackbar={showSnackbar}
             setShowSnackbar={setShowSnackbar}
           />} 
+        />
+        <Route 
+          path='/palette/new'
+          element={<NewPaletteForm />}
         />
       </Routes>
       

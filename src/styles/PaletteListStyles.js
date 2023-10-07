@@ -21,6 +21,11 @@ const classes = () => {
             width: 100%;
             justify-content: space-between;
             color: white;
+            align-items: center;
+            & a {
+                text-decoration: none;
+                color: white;
+            }
         `,
         palettes: css`
             box-sizing: border-box;

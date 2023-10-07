@@ -21,11 +21,6 @@ const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, sho
                 <span>Level: {level}</span>
                 <div className={classes.slider}>
                     <Slider 
-                        // className={`${classes['rc-slider-handle']}
-                        //     ${classes['rc-slider-track']} 
-                        //     ${classes['rc-slider-rail']}
-                        //     ${classes['rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging']}
-                        // `} 
                         defaultValue={level} 
                         min={100} 
                         max={900} 
