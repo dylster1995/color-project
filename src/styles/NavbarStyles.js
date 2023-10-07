@@ -21,13 +21,39 @@ const classes = () => {
             & a {
                 text-decoration: none;
                 color: black;
-            }
+            } 
         `,
         slider: css`
             width: 340px;
             margin: 0 10px;
             display: inline-block;
-
+            & .rc-slider-rail {
+                height: 8px;
+                background-color: lightgray;
+            }
+            & .rc-slider-track {
+                background-color: lightgray;
+            }
+            & .rc-slider-handle, .rc-slider-handle-dragging.rc-slider-handle-dragging.rc-slider-handle-dragging {
+                background-color: green;
+                outline: none;
+                border: 2px solid green;
+                border-color: green;
+                box-shadow: none;
+                width:13px;
+                height: 13px;
+                margin-top: -3px;
+                &:focus :hover {
+                    background-color: green;
+                    outline: none;
+                    border: 2px solid green;
+                    border-color: green;
+                    box-shadow: none;
+                    width:13px;
+                    height: 13px;
+                    margin-top: -3px;
+                }
+            }
         `,
         mutedText: css`
             color: rgb(199, 199, 199);

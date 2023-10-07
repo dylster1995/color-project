@@ -18,7 +18,7 @@ const Navbar = ({ level = null, handleChangeLevel = null, select, setSelect, sho
             <Link to='/'>reactcolorpicker</Link>
         </div>
         {
-            level != null && <div className='slider-container'>
+            level != null && <div>
                 <span>Level: {level}</span>
                 <div className={classes.slider}>
                     <Slider 
