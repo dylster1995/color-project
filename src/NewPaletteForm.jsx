@@ -5,14 +5,15 @@ import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import { Button } from '@mui/material';
+import { ChromePicker } from 'react-color';
 
-const drawerWidth = 240;
+const drawerWidth = 400;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
   ({ theme, open }) => ({
@@ -105,25 +106,26 @@ export default function PersistentDrawerLeft() {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
           <ChevronLeftIcon /> 
-            {/* {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />} */}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))} */}
-        </List>
+        {/* Inside the Drawer */}
+        <Typography variant='h4'>
+            Design Your Palette
+        </Typography>
+        <div>
+        <Button variant='contained' color='error'>
+            Clear Palette
+        </Button>
+        <Button variant='contained' color='success'>
+            Random Color
+        </Button>
+        </div>
+        <ChromePicker color='purple' onChangeComplete={(newColor) => console.log(newColor) }/>
+        <Button variant='contained' color='primary'>Add Color</Button>
       </Drawer>
       <Main open={open}>
-        <DrawerHeader />
+        <DrawerHeader /> 
       </Main>
     </Box>
   );
