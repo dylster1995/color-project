@@ -44,3 +44,4 @@ function generateScale(hexColor, numberOfColors) {
 }
 
 export { generatePalette };
+

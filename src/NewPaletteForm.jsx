@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -11,7 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DraggableColorBox from './DraggableColorBox';
-import { Button } from '@mui/material';
+import { Button, TextField } from '@mui/material';
+import { nounsArray, adjArray } from './colorNamesHelper';
+
 import { ChromePicker } from 'react-color';
 
 const drawerWidth = 400;
@@ -63,9 +65,23 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const NewPaletteForm = () => {
-  const [open, setOpen] = React.useState(false);
-  const [currentColor, setCurrentColor] = React.useState('black');
-  const [colors, setColors] = React.useState(['purple', 'red']);
+  const [open, setOpen] = useState(true);
+  const [colorPickerValue, setColorPickerValue] = useState('#000000');
+  const [colorName, setColorName] = useState('');
+  const [isErrorColorName, setIsErrorColorName] = useState(false);
+  const [errorMessageColorName, setErrorMessageColorName] = useState('');
+  const [isErrorHex, setIsErrorHex] = useState(false);
+  const [errorMessageHex, setErrorMessageHex] = useState('');
+  const [colors, setColors] = useState([
+    {
+        colorName: 'red',
+        hex: '#ff0000' 
+    },
+    {
+        colorName: 'purple',
+        hex: '#800080'
+    }
+]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -74,9 +90,77 @@ const NewPaletteForm = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const handleGetRandomColor = (evt) => {
+    const chars = '0123456789abcdef';
+    let color = '#';
+    do {
+        for(let i = 0; i < 6; i++){
+            color += chars[Math.floor(Math.random() * chars.length)];
+        }
+    } while( colors.map( c => c.hex).includes(color) )
+    const colorName = getColorName();
+    setColors( oldColors => [...oldColors, { hex: color, colorName }] )
+  }
+  const getColorName = () => {
+    let adjective = '';
+    let noun = '';
+    do {
+        adjective = adjArray[Math.floor(Math.random() * adjArray.length)];
+        noun = nounsArray[Math.floor(Math.random() * nounsArray.length)];
+    } while(colors.map(c => c.colorName).includes(`${adjective} ${noun}`))
 
+    return `${adjective} ${noun}`;
+  }
+  const handleSubmitForm = (evt) => {
+    evt.preventDefault();
+    if (colorName === '') { 
+        setIsErrorColorName(true);
+        setErrorMessageColorName('Please enter a name.');
+        return;
+    }
+    if(colors.map( c => c.colorName ).includes(colorName)) {
+        return;
+    } 
+
+    if (colors.map( c => c.hex ).includes(colorPickerValue)) {
+        setIsErrorHex(true);
+        setErrorMessageHex('This color has already been used.');
+        return;
+    }
+    setColors( oldColors => [...oldColors, { hex: colorPickerValue, colorName}]);
+    setColorName('');
+  }
+  const handleChangeColorName = (evt) => {
+    setColorName(evt.target.value); 
+    if (evt.target.value !== '') {
+        setIsErrorColorName(false);
+    } 
+    if (colors.map( c => c.colorName ).includes(evt.target.value)){
+        setIsErrorColorName(true);
+        setErrorMessageColorName('This name is already in use!');
+        return;
+    }
+  }
+  const handleChangeColorPicker = (newColor) => {
+    setIsErrorHex(false);
+    setErrorMessageHex('');
+    setColorPickerValue(newColor.hex);
+    if (colors.map( c => c.hex).includes(newColor.hex)) {
+        setIsErrorHex(true);
+        setErrorMessageHex('This color has already been used.');
+    }
+  }
+  const handleReset = () => {
+    setColorPickerValue('#000000')
+    setColorName('')
+    setIsErrorColorName(false)
+    setErrorMessageColorName('')
+    setIsErrorHex(false)
+    setErrorMessageHex('')
+    setColors([])
+  }
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', height: '100vh'}}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -118,26 +202,43 @@ const NewPaletteForm = () => {
             Design Your Palette
         </Typography>
         <div>
-        <Button variant='contained' color='error'>
+        <Button variant='contained' color='error' onClick={handleReset}>
             Clear Palette
         </Button>
-        <Button variant='contained' color='success'>
+        <Button variant='contained' color='success' onClick={handleGetRandomColor}>
             Random Color
         </Button>
         </div>
-        <ChromePicker color={currentColor} onChangeComplete={(newColor) => setCurrentColor(newColor.hex) }/>
-        <Button 
-            variant='contained' 
-            style={{backgroundColor: currentColor}} 
-            onClick={() => setColors( oldColors => [...oldColors, currentColor])}
-        >
-            Add Color
-        </Button>
+        <ChromePicker color={colorPickerValue} onChangeComplete={ (newColor) => handleChangeColorPicker(newColor) }/>
+        {
+            isErrorHex ? <label style={{color: 'red'}}>{errorMessageHex}</label> : null
+        }
+            <form onSubmit={handleSubmitForm} style={{display: 'flex'}}>
+                <TextField 
+                    variant='outlined'
+                    type='text' 
+                    value={colorName} 
+                    onChange={handleChangeColorName} 
+                    sx={{
+                        border: isErrorColorName ? '2px solid red' : 'none',
+                    }}
+                />
+                <Button 
+                    variant='contained' 
+                    style={{backgroundColor: colorPickerValue}} 
+                    onClick={handleSubmitForm}
+                >
+                    Add Color
+                </Button>
+                </form>
+                {
+                    isErrorColorName ? <label style={{color: 'red'}}>{errorMessageColorName}</label> : null
+                }
         {/* End of Drawer */}
       </Drawer>
       <Main open={open}>
         <DrawerHeader /> 
-        {colors.map(color => <DraggableColorBox color={color} key={color} />)}
+        {colors.map(color => <DraggableColorBox hex={color.hex} key={color.colorName} colorName={color.colorName} />)}
       </Main>
     </Box>
   );
