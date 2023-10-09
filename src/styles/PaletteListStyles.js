@@ -8,6 +8,7 @@ const classes = () => {
             display: flex;
             align-items: flex-start;
             justify-content: center;
+            overflow: auto;
         `,
         container: css`
             width: 50%;

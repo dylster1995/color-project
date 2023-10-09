@@ -93,7 +93,65 @@ repulsive
 scary
 thoughtless
 uptight
-worried`;
+worried
+awkward
+baffling
+amusing
+blundering
+comical
+cranky
+cheeky
+ditsy
+dramatic
+dopey
+enigmatic
+evasive
+flaky
+frivolous
+giddy
+gawkish
+gallant
+noble
+hapless
+hypnotic
+huffy
+impulsive
+inquisitive
+jocular
+jovial
+judicious
+jesting
+knotty
+knavish
+ludicrous
+mischievous
+merry
+mystified
+nonchalant
+nifty
+nimble
+oblique
+ostentatious
+plucky
+puerile
+quirky
+quiant
+quivering
+rowdy
+rustic
+roving
+tantalizing
+tiresome
+unruly
+unabashed
+unorthodox
+vivacious
+vague
+verbose
+wacky
+wistful
+zany
+`;
 
 
 const nouns = `Actor	Gold	Painting
@@ -105,7 +163,7 @@ Animal	Hamburger	Pizza
 Answer	Helicopter	Planet
 Apple	Helmet	Plastic
 Army	Holiday	Portugal
-Australia	Honey	Potato
+Agriculture	Honey	Potato
 Balloon	Horse	Queen
 Banana	Hospital	Quill
 Battery	House	Rain
@@ -123,11 +181,11 @@ Car	Juice	School
 Caravan	Kangaroo	Scooter
 Carpet	King	Shampoo
 Cartoon	Kitchen	Shoe
-China	Kite	Soccer
+Chart	Kite	Soccer
 Church	Knife	Spoon
 Crayon	Lamp	Stone
 Crowd	Lawyer	Sugar
-Daughter	Leather	Sweden
+Daughter	Leather	Desk
 Death	Library	Teacher
 Denmark	Lighter	Telephone
 Diamond	Lion	Television
@@ -138,13 +196,13 @@ Dog	Lunch	Toothbrush
 Dream	Machine	Traffic
 Dress	Magazine	Train
 Easter	Magician	Truck
-Egg	Manchester	Uganda
+Egg	Manchester	Camp
 Eggplant	Market	Umbrella
-Egypt	Match	Van
+Evaluation	Match	Van
 Elephant	Microphone	Vase
 Energy	Monkey	Vegetable
 Engine	Morning	Vulture
-England	Motorcycle	Wall
+Entropy	Motorcycle	Wall
 Evening	Nail	Whale
 Eye	Napkin	Window
 Family	Needle	Wire
@@ -155,11 +213,22 @@ Flower	Notebook	Zebra
 Football	Ocean	Zoo
 Forest	Oil	Garden
 Fountain	Orange	Gas
-France	Oxygen	Girl
+France	Oxygen	Geode
 Furniture	Oyster	Glass
-Garage	Ghost`;
+Garage	Ghost   Grape
+Mixer   Guesser Party
+Board   Museum  Mug
+Grains  Submarine   Clouds
+Spoon   Toaster Vehicle
+Stool   Stamina Glory
+Handle  Climber Snack
+Void    Absence Idea
+`;
 
 const nounsArray = (nouns.replace(/\s/g, ' ').split(' '));
-const adjArray = adjectives.replace(/\s/g, ' ').split(' ').map( str => str.charAt(0).toUpperCase() + str.slice(1));
+const adjArray = adjectives.replace(/\s/g, ' ')
+    .split(' ')
+    .map( str => str.charAt(0).toUpperCase() + str.slice(1))
+    .filter(str => str.trim().length > 1);
 
 export { nounsArray, adjArray };

@@ -10,17 +10,23 @@ import { useState } from 'react';
 function App() {
   const [select, setSelect] = useState('hex');
   const [showSnackbar, setShowSnackbar] = useState(false);
+  const [palettes, setPalettes] = useState(seedColors);
+
+  const savePalette = (newPalette) => {
+    setPalettes( oldPalettes => [...oldPalettes, newPalette]);
+  }
 
   return (
     <div className="App">
       <Routes>
         <Route 
           path='/' 
-          element={<PaletteList palettes={seedColors} />}
+          element={<PaletteList palettes={palettes} />}
         />
         <Route 
           path='/palette/:paletteId' 
           element={<Palette 
+            palettes={palettes}
             select={select}
             setSelect={setSelect}
             showSnackbar={showSnackbar}
@@ -30,7 +36,7 @@ function App() {
         <Route 
           path='/palette/:paletteId/:colorId' 
           element={<SingleColorPalette 
-            palettes={seedColors}
+            palettes={palettes}
             select={select}
             setSelect={setSelect}
             showSnackbar={showSnackbar}
@@ -39,7 +45,7 @@ function App() {
         />
         <Route 
           path='/palette/new'
-          element={<NewPaletteForm />}
+          element={<NewPaletteForm savePalette={savePalette} />}
         />
       </Routes>
       

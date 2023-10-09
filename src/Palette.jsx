@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { generatePalette } from './colorHelpers';
-import seedColors from './seedColors';
 import ColorBox from './ColorBox';
 import Navbar from './Navbar';
 import PaletteFooter from './PaletteFooter';
 import styles from './styles/PaletteStyles';
 
-const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar }) => {
+const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar, palettes }) => {
     const [level, setLevel] = useState(500);
 
     const { paletteId } = useParams();
-    const foundPalette = seedColors.find( c => c.id === paletteId );
+    const foundPalette = palettes.find( c => c.id === paletteId );
     if(!foundPalette){
         return <h1>uh oh no colors found!</h1>
     }

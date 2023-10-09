@@ -1,24 +1,23 @@
 import { css } from '@emotion/css';
 
 const classes = () => {
-   return {root: css`
+   return {
+    root: css`
         background-color: white;
         border: 1px solid black;
-        borderRadius: 5px;
+        border-radius: 5px;
         padding: 0.5rem;
         position: relative;
-        overflow: hidden;
+        overflow: visible;
         height: 100%;
-        '&:hover': {
-            cursor: pointer;
-        }
+        cursor: pointer;
     `,
     colors: css`
         backgroun-color: grey;
         height: 170px;
         width: 100%;
         border-radius: 5px;
-        overflow: hidden;
+        overflow: visible;
     `,
     title: css`
         display: flex;
@@ -40,7 +39,7 @@ const classes = () => {
         display: inline-block;
         margin: 0 auto;
         position: relative;
-        margin-bottom: -3.7px;
+        margin-bottom: -4px;
     `}
 }
 

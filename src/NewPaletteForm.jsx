@@ -13,7 +13,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DraggableColorBox from './DraggableColorBox';
 import { Button, TextField } from '@mui/material';
 import { nounsArray, adjArray } from './colorNamesHelper';
-
+import { useNavigate } from 'react-router-dom';
 import { ChromePicker } from 'react-color';
 
 const drawerWidth = 400;
@@ -64,7 +64,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const NewPaletteForm = () => {
+const NewPaletteForm = ({ savePalette }) => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [colorPickerValue, setColorPickerValue] = useState('#000000');
   const [colorName, setColorName] = useState('');
@@ -74,14 +75,20 @@ const NewPaletteForm = () => {
   const [errorMessageHex, setErrorMessageHex] = useState('');
   const [colors, setColors] = useState([
     {
-        colorName: 'red',
-        hex: '#ff0000' 
+        name: 'red',
+        color: '#ff0000' 
     },
     {
-        colorName: 'purple',
-        hex: '#800080'
+        name: 'purple',
+        color: '#800080'
     }
 ]);
+  const newPalette = {
+    paletteName: 'temp palette',
+    id: 'temp-palette',
+    emoji: ':P',
+    colors: [...colors]
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -99,7 +106,7 @@ const NewPaletteForm = () => {
         }
     } while( colors.map( c => c.hex).includes(color) )
     const colorName = getColorName();
-    setColors( oldColors => [...oldColors, { hex: color, colorName }] )
+    setColors( oldColors => [...oldColors, { color: color, name: colorName }] );
   }
   const getColorName = () => {
     let adjective = '';
@@ -127,7 +134,7 @@ const NewPaletteForm = () => {
         setErrorMessageHex('This color has already been used.');
         return;
     }
-    setColors( oldColors => [...oldColors, { hex: colorPickerValue, colorName}]);
+    setColors( oldColors => [...oldColors, { color: colorPickerValue, name: colorName}]);
     setColorName('');
   }
   const handleChangeColorName = (evt) => {
@@ -151,18 +158,22 @@ const NewPaletteForm = () => {
     }
   }
   const handleReset = () => {
-    setColorPickerValue('#000000')
-    setColorName('')
-    setIsErrorColorName(false)
-    setErrorMessageColorName('')
-    setIsErrorHex(false)
-    setErrorMessageHex('')
-    setColors([])
+    setColorPickerValue('#000000');
+    setColorName('');
+    setIsErrorColorName(false);
+    setErrorMessageColorName('');
+    setIsErrorHex(false);
+    setErrorMessageHex('');
+    setColors([]);
   }
+  const handleDelete = (evt) => {
+    setColors( oldColors => [...oldColors.filter(c => c.name !== evt.target.dataset.name)]);
+  }
+
   return (
-    <Box sx={{ display: 'flex', height: '100vh'}}>
+    <Box sx={{ display: 'flex', height: '100vh' }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} color='default'>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -173,9 +184,29 @@ const NewPaletteForm = () => {
           >
             <MenuIcon />
           </IconButton>
+
+          <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant="h6" noWrap component="div">
             Make a New Palette
           </Typography>
+          <div>
+            <Button
+                variant='contained'
+                color='warning'
+                sx={{margin: '2px'}}
+                onClick={ () => navigate('/')}
+            >
+                Back to Home
+            </Button>
+            <Button 
+                variant='contained' 
+                color='primary' 
+                onClick={() => { savePalette(newPalette); navigate('/'); }}
+            >
+                Save Palette
+            </Button>
+            </div>
+            </div>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -209,7 +240,10 @@ const NewPaletteForm = () => {
             Random Color
         </Button>
         </div>
-        <ChromePicker color={colorPickerValue} onChangeComplete={ (newColor) => handleChangeColorPicker(newColor) }/>
+        <ChromePicker 
+            color={colorPickerValue} 
+            onChangeComplete={ (newColor) => handleChangeColorPicker(newColor) }
+        />
         {
             isErrorHex ? <label style={{color: 'red'}}>{errorMessageHex}</label> : null
         }
@@ -238,7 +272,7 @@ const NewPaletteForm = () => {
       </Drawer>
       <Main open={open}>
         <DrawerHeader /> 
-        {colors.map(color => <DraggableColorBox hex={color.hex} key={color.colorName} colorName={color.colorName} />)}
+        {colors.map(color => <DraggableColorBox hex={color.color} key={color.name} colorName={color.name} handleDelete={handleDelete}/>)}
       </Main>
     </Box>
   );
