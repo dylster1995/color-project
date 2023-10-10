@@ -13,8 +13,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import DraggableColorBox from './DraggableColorBox';
 import { Button, TextField } from '@mui/material';
 import { nounsArray, adjArray } from './colorNamesHelper';
-import { useNavigate } from 'react-router-dom';
 import { ChromePicker } from 'react-color';
+import NewPaletteFormNameModal from './NewPaletteFormNameModal';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 400;
 
@@ -68,11 +69,10 @@ const NewPaletteForm = ({ savePalette }) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [colorPickerValue, setColorPickerValue] = useState('#000000');
-  const [colorName, setColorName] = useState('');
-  const [isErrorColorName, setIsErrorColorName] = useState(false);
-  const [errorMessageColorName, setErrorMessageColorName] = useState('');
+  const [color, setColor] = useState({color: '', error: false, errorMessage: ''});
   const [isErrorHex, setIsErrorHex] = useState(false);
   const [errorMessageHex, setErrorMessageHex] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [colors, setColors] = useState([
     {
         name: 'red',
@@ -83,12 +83,6 @@ const NewPaletteForm = ({ savePalette }) => {
         color: '#800080'
     }
 ]);
-  const newPalette = {
-    paletteName: 'temp palette',
-    id: 'temp-palette',
-    emoji: ':P',
-    colors: [...colors]
-  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -118,33 +112,32 @@ const NewPaletteForm = ({ savePalette }) => {
 
     return `${adjective} ${noun}`;
   }
-  const handleSubmitForm = (evt) => {
+  const handleSubmitColorName = (evt) => {
     evt.preventDefault();
-    if (colorName === '') { 
-        setIsErrorColorName(true);
-        setErrorMessageColorName('Please enter a name.');
+    if (color.color === '') { 
+        setColor( oldColor => ({...oldColor, error: true, errorMessage: 'Please enter a name.'}))
+        
         return;
     }
-    if(colors.map( c => c.colorName ).includes(colorName)) {
+    if(colors.map( c => c.name ).includes(color.color)) {
         return;
     } 
 
-    if (colors.map( c => c.hex ).includes(colorPickerValue)) {
+    if (colors.map( c => c.color ).includes(colorPickerValue)) {
         setIsErrorHex(true);
         setErrorMessageHex('This color has already been used.');
         return;
     }
-    setColors( oldColors => [...oldColors, { color: colorPickerValue, name: colorName}]);
-    setColorName('');
+    setColors( oldColors => [...oldColors, { color: colorPickerValue, name: color.color}]);
+    setColor({color: '', error: false, errorMessage: ''});
   }
   const handleChangeColorName = (evt) => {
-    setColorName(evt.target.value); 
+    setColor( oldColor => ({...oldColor, color: evt.target.value}))
     if (evt.target.value !== '') {
-        setIsErrorColorName(false);
+        setColor( oldColor => ({ ...oldColor, error: false }));
     } 
-    if (colors.map( c => c.colorName ).includes(evt.target.value)){
-        setIsErrorColorName(true);
-        setErrorMessageColorName('This name is already in use!');
+    if (colors.map( c => c.name ).includes(evt.target.value)){
+        setColor( oldColor => ({ ...oldColor, error: true, errorMessage: 'This name is already in use!' }));
         return;
     }
   }
@@ -159,19 +152,30 @@ const NewPaletteForm = ({ savePalette }) => {
   }
   const handleReset = () => {
     setColorPickerValue('#000000');
-    setColorName('');
-    setIsErrorColorName(false);
-    setErrorMessageColorName('');
+    setColor({color: '', error: false, errorMessage: ''});
     setIsErrorHex(false);
     setErrorMessageHex('');
     setColors([]);
+    setShowModal(false);
   }
   const handleDelete = (evt) => {
     setColors( oldColors => [...oldColors.filter(c => c.name !== evt.target.dataset.name)]);
   }
+  const showPaletteNameModal = (evt) => {
+    setShowModal(true);
+  }
 
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
+        {
+            showModal ? <NewPaletteFormNameModal 
+                setShowModal={setShowModal} 
+                showModal={showModal}
+                savePalette={savePalette}
+                colors={colors}
+            /> :
+            null
+        }
       <CssBaseline />
       <AppBar position="fixed" open={open} color='default'>
         <Toolbar>
@@ -201,7 +205,7 @@ const NewPaletteForm = ({ savePalette }) => {
             <Button 
                 variant='contained' 
                 color='primary' 
-                onClick={() => { savePalette(newPalette); navigate('/'); }}
+                onClick={showPaletteNameModal}
             >
                 Save Palette
             </Button>
@@ -247,26 +251,26 @@ const NewPaletteForm = ({ savePalette }) => {
         {
             isErrorHex ? <label style={{color: 'red'}}>{errorMessageHex}</label> : null
         }
-            <form onSubmit={handleSubmitForm} style={{display: 'flex'}}>
+            <form onSubmit={handleSubmitColorName} style={{display: 'flex'}}>
                 <TextField 
                     variant='outlined'
                     type='text' 
-                    value={colorName} 
+                    value={color.color} 
                     onChange={handleChangeColorName} 
                     sx={{
-                        border: isErrorColorName ? '2px solid red' : 'none',
+                        border: color.error ? '2px solid red' : 'none',
                     }}
                 />
                 <Button 
                     variant='contained' 
                     style={{backgroundColor: colorPickerValue}} 
-                    onClick={handleSubmitForm}
+                    onClick={handleSubmitColorName}
                 >
                     Add Color
                 </Button>
                 </form>
                 {
-                    isErrorColorName ? <label style={{color: 'red'}}>{errorMessageColorName}</label> : null
+                    color.error ? <label style={{color: 'red'}}>{color.errorMessage}</label> : null
                 }
         {/* End of Drawer */}
       </Drawer>
