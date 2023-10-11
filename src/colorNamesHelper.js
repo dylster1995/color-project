@@ -225,10 +225,12 @@ Handle  Climber Snack
 Void    Absence Idea
 `;
 
-const nounsArray = (nouns.replace(/\s/g, ' ').split(' '));
+const nounsArray = (nouns.replace(/\s/g, ' ')
+    .split(' '))   
+    .filter(noun => noun !== ' ')
+    .filter(noun => noun !== '');
 const adjArray = adjectives.replace(/\s/g, ' ')
     .split(' ')
     .map( str => str.charAt(0).toUpperCase() + str.slice(1))
     .filter(str => str.trim().length > 1);
-
 export { nounsArray, adjArray };

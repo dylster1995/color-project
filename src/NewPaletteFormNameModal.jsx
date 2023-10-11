@@ -8,10 +8,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import EmojiPicker from './EmojiPicker';
 import { useNavigate } from 'react-router-dom';
 
-export default function NewPaletteFormNameModal({ setShowModal, showModal, savePalette, colors }) {
+export default function NewPaletteFormNameModal({ setShowModal, showModal, savePalette, colors, palette, paletteIds, isEdit }) {
   const navigate = useNavigate();
-  const [emoji, setEmoji] = useState('');
-  const [paletteName, setPaletteName] = useState('');
+  const [emoji, setEmoji] = useState( palette === undefined ? '' : palette.emoji );
+  const [paletteName, setPaletteName] = useState( palette === undefined ? '' : palette.paletteName );
   const [error, setError] = useState('');
 
   const handleClose = () => {
@@ -23,19 +23,24 @@ export default function NewPaletteFormNameModal({ setShowModal, showModal, saveP
   }
   const handleSubmit = () => {
     setError('');
-    if (paletteName === '' || emoji === '') {
+    const id = paletteName.toLowerCase().replaceAll(' ', '-');
+    const paletteNameUsed = paletteIds.includes(id);
+    if (paletteName === '' || emoji === '' || (paletteNameUsed && !isEdit)) {
       if (paletteName === ''){
         setError(oldError => oldError + 'Please enter a name. ');
       }
       if (emoji === ''){
         setError(oldError => oldError + 'Please select an emoji. ');
       } 
+      if (paletteNameUsed){
+        setError(oldError => oldError + 'Name already used. ');
+      }
       return;
     }
 
     const newPalette = {
       paletteName: paletteName,
-      id: paletteName.replace(' ', '-'),
+      id: id,
       emoji: emoji,
       colors: [...colors]
     }

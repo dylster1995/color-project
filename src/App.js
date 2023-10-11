@@ -13,7 +13,17 @@ function App() {
   const [palettes, setPalettes] = useState(seedColors);
 
   const savePalette = (newPalette) => {
-    setPalettes( oldPalettes => [...oldPalettes, newPalette]);
+    setPalettes( oldPalettes => {
+      const oldPaletteIds = oldPalettes.map(p => p.id);
+      if( oldPaletteIds.includes(newPalette.id)){
+        const newPalettes = [...oldPalettes.filter(p => p.id !== newPalette.id)];
+        newPalettes.push(newPalette);
+        return newPalettes;
+      }
+      return [...oldPalettes, newPalette];
+  })}
+  const deletePalette = (deletePalette) => {
+    setPalettes( oldPalettes => [...oldPalettes.filter( p => p.id !== deletePalette.id )] );
   }
 
   return (
@@ -44,9 +54,13 @@ function App() {
           />} 
         />
         <Route 
-          path='/palette/new'
-          element={<NewPaletteForm savePalette={savePalette} />}
+          path='/new/palette/'
+          element={<NewPaletteForm savePalette={savePalette} palettes={palettes} isEdit={false} />}
         />
+        <Route 
+            path='/edit/palette/:paletteId'
+            element={<NewPaletteForm savePalette={savePalette} palettes={palettes} deletePalette={deletePalette} isEdit={true} />}
+          />
       </Routes>
       
     </div>

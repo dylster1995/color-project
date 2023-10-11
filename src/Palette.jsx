@@ -37,6 +37,7 @@ const Palette = ({ select, setSelect, showSnackbar, setShowSnackbar, palettes })
             setSelect={setSelect} 
             showSnackbar={showSnackbar}
             setShowSnackbar={setShowSnackbar}
+            paletteId={palette.id}
         />
         <div className={classes.PaletteColors}>
             { colorBoxes }

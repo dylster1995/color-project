@@ -15,7 +15,7 @@ import { Button, TextField } from '@mui/material';
 import { nounsArray, adjArray } from './colorNamesHelper';
 import { ChromePicker } from 'react-color';
 import NewPaletteFormNameModal from './NewPaletteFormNameModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const drawerWidth = 400;
 
@@ -65,15 +65,17 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }));
 
-const NewPaletteForm = ({ savePalette }) => {
+const NewPaletteForm = ({ savePalette, palettes, deletePalette, isEdit }) => {
   const navigate = useNavigate();
+  const { paletteId } = useParams();
   const [open, setOpen] = useState(true);
   const [colorPickerValue, setColorPickerValue] = useState('#000000');
   const [color, setColor] = useState({color: '', error: false, errorMessage: ''});
   const [isErrorHex, setIsErrorHex] = useState(false);
   const [errorMessageHex, setErrorMessageHex] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [colors, setColors] = useState([
+  const palette = palettes.find( p => p.id === paletteId );
+  const [colors, setColors] = useState( palette !== undefined ? palette.colors : [
     {
         name: 'red',
         color: '#ff0000' 
@@ -82,7 +84,7 @@ const NewPaletteForm = ({ savePalette }) => {
         name: 'purple',
         color: '#800080'
     }
-]);
+  ]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -164,6 +166,10 @@ const NewPaletteForm = ({ savePalette }) => {
   const showPaletteNameModal = (evt) => {
     setShowModal(true);
   }
+  const handleDeletePalette = (evt) => {
+    deletePalette(palettes.find( p => p.id === paletteId));
+    navigate('/');
+  }
 
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
@@ -173,6 +179,9 @@ const NewPaletteForm = ({ savePalette }) => {
                 showModal={showModal}
                 savePalette={savePalette}
                 colors={colors}
+                palette={palette}
+                paletteIds={palettes.map(p => p.id)}
+                isEdit={isEdit}
             /> :
             null
         }
@@ -191,7 +200,9 @@ const NewPaletteForm = ({ savePalette }) => {
 
           <div style={{width: '100%', display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant="h6" noWrap component="div">
-            Make a New Palette
+            {
+              paletteId === undefined ? 'Make a New Palette' : 'Edit Palette'
+            }
           </Typography>
           <div>
             <Button
@@ -208,6 +219,13 @@ const NewPaletteForm = ({ savePalette }) => {
                 onClick={showPaletteNameModal}
             >
                 Save Palette
+            </Button>
+            <Button 
+                variant='contained' 
+                color='error' 
+                onClick={handleDeletePalette}
+            >
+                Delete Palette
             </Button>
             </div>
             </div>
